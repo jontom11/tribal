@@ -6,7 +6,13 @@ const serverPort = process.env.TRIBAL_PORT || 4242;
 
 const app = express();
 
-app.use( express.static(`${__dirname}/../client/dist`) );
+app.use( express.static(`${__dirname}/../client`) );
+app.use( express.static(`${__dirname}/../node_modules`) );
+
+app.use( '/test', (req, res) => {
+  const message = `Server ${(db.mongoose.connection.readyState === 1) ? 'is' : 'is NOT'} connected to the database.`;
+  res.status(200).send(message);
+});
 
 app.listen = Promise.promisify( app.listen );
 app.listen( serverPort )

@@ -1,1 +1,1 @@
-module.exports.db = require( './init' );
+module.exports.mongoose = require( './init' );
