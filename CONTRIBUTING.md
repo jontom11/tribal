@@ -12,6 +12,13 @@
   * Using from Sublime's Command Palette (Command-Shift-P / Ctrl-Shift-P):
   * `Package Control: Install Package -> SublimeLinter`
   * `Package Control: Install Package -> SublimeLinter-contrib-eslint`
+4. Install Heroku
+  * Create a [Heroku](http//www.heroku.com) account if you don't have one already
+  * Install the Heroku CLI
+    * `brew install heroku` (on Mac)
+    * For other platforms, download from the [Heroku website](https://devcenter.heroku.com/articles/heroku-cli)
+  * Log in to Heroku through the CLI: `heroku login`
+
 
 ## General Workflow
 
