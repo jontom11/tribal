@@ -2,8 +2,7 @@ const Promise = require( 'bluebird' );
 const mongoose = require( 'mongoose' );
 mongoose.Promise = Promise;
 
-const databaseName = process.env.TRIBAL_MONGO_DBNAME || 'test';
-const databaseUrl = process.env.TRIBAL_MONGO_URL || `mongodb://localhost/${databaseName}`;
+const databaseUrl = process.env.MONGODB_URI || 'mongodb://localhost/tribal';
 
 mongoose.connect( databaseUrl )
   .then( () => {

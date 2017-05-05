@@ -1,3 +1,5 @@
+require('load-grunt-tasks')(grunt);
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -15,50 +17,9 @@ module.exports = function(grunt) {
       ],
     },
 
-    concat: {
-      options: {
-        separator: ';',
-      },
-      client: {
-        src: ['public/client/**/*.js'],
-        dest: 'public/dist/client.js',
-      },
-      clientlib: {
-        src: [
-          'public/lib/jquery.js',
-          'public/lib/underscore.js',
-          'public/lib/backbone.js',
-          'public/lib/handlebars.js'
-        ],
-        dest: 'public/dist/lib.js',
-      },
-    },
-
-    uglify: {
-      client: {
-        files: {
-          'public/dist/client.min.js': ['public/dist/client.js'],
-        },
-      },
-      clientlib: {
-        files: {
-          'public/dist/lib.min.js': ['public/dist/lib.js'],
-        },
-      },
-    },
-
-    cssmin: {
-      target: {
-        files: {
-          'public/dist/style.min.css': ['public/style.css'],
-        },
-      },
-    },
-
     mochaTest: {
       options: {
         reporter: 'nyan',
-        bail: true,
       },
       normal: {
         src: ['test/**/*.js']
@@ -82,9 +43,10 @@ module.exports = function(grunt) {
     watch: {
       eslint: {
         files: [
-          'app/**/*.js',
-          'lib/**/*.js',
-          'public/client/**/*.js',
+          '*.js',
+          'server/**/*.js',
+          'database/**/*.js',
+          'client/**/*.js',
           'test/**/*.js',
         ],
         tasks: [
@@ -92,32 +54,9 @@ module.exports = function(grunt) {
         ],
       },
 
-      // client: {
-      //   files: ['public/client/**/*.js'],
-      //   tasks: [
-      //     'concat:client',
-      //     'uglify:client',
-      //   ],
-      // },
-
-      // clientlib: {
-      //   files: ['public/lib/**/*.js'],
-      //   tasks: [
-      //     'concat:lib',
-      //     'uglify:lib',
-      //   ],
-      // },
-
-      // css: {
-      //   files: ['public/*.css'],
-      //   tasks: ['cssmin'],
-      // },
-
       mochaTest: {
         files: [
-          'server*.js',
-          'app/**/*.js',
-          'lib/**/*.js',
+          'server/**/*.js',
           'test/**/*.js',
         ],
         tasks: [
@@ -134,15 +73,6 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-git');
-  grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-shell-spawn');
-  grunt.loadNpmTasks('grunt-nodemon');
 
   ////////////////////////////////////////////////////
   // Main grunt tasks
@@ -159,7 +89,7 @@ module.exports = function(grunt) {
     'mochaTest:normal'
   ]);
 
-  grunt.registerTask('upload', function(n) {
+  grunt.registerTask('upload', function() {
     if (grunt.option('prod')) {
       grunt.task.run([ 'gitpush:prod' ]);
     }
@@ -172,6 +102,21 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('dev', [
-    'nodemon'
+    // TODO: start database if it's not already running
+    'nodemon:dev'
+    // TODO: start process to refresh browser windows upon file change.  see: https://github.com/ChrisWren/grunt-nodemon
   ]);
+
+  grunt.registerTask('dev-debug', [
+    'nodemon:dev-debug'
+  ]);
+
+  grunt.registerTask('help', 'print project-specific usage instructions', () => {
+    grunt.log.writeln('The following are key tasks to be aware of:');
+    grunt.log.writeln('grunt dev:  start server with nodemon');
+    grunt.log.writeln('grunt dev-debug:  start server with nodemon and debugging enabled');
+    grunt.log.writeln('grunt test:  run test suite');
+    grunt.log.writeln('grunt test-debug:  run test suite with node debugging enabled');
+    grunt.log.writeln('grunt deploy:  run test suite with node debugging enabled');
+  });
 };
