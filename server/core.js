@@ -2,7 +2,7 @@ const express = require( 'express' );
 const db = require( '../database' );
 const Promise = require( 'bluebird' );
 
-const serverPort = process.env.TRIBAL_PORT || 4242;
+const serverPort = process.env.PORT || 4242;
 
 const app = express();
 
