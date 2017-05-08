@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon server",
-    "test": "mocha test"
+    "test": "eslint . && mocha test"
   },
   "dependencies": {
     "angular": "^1.6.4",
