@@ -8,3 +8,7 @@ node_modules/
 
 # mongo database directory
 mongo/
+
+# Stuff from Kurt's text editor:
+*.pui
+*.prj
