@@ -1,30 +1,41 @@
 module.exports = function(config) {
   config.set({
 
+    // start these browsers
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    browsers: ['Chrome'],
+
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'chai', 'chai-as-promised', 'sinon-chai'],
+
+    // preprocess matching files before serving them to the browser
+    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    preprocessors: {
+      'client/templates/*.html': ['ng-html2js']
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'client/',
+      prependPrefix: '/',
+      moduleName: 'templates'
+    },
 
     // list of files / patterns to load in the browser
     files: [
       'node_modules/angular/angular.js',
+      'node_modules/angular-mocks/angular-mocks.js',
       'client/index.js',
-      'client/**/*.js',
       'client/templates/*.html',
-      'test/**/*.spec.js'
+      'client/**/*.js',
     ],
 
     // list of files to exclude
     exclude: [
     ],
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -43,10 +54,6 @@ module.exports = function(config) {
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
