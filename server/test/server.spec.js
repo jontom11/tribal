@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const request = require('supertest');
-const server = require('../server/core');
+const server = require('../core');
 
 describe( 'tribal server', function() {
 
