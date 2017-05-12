@@ -3,17 +3,22 @@ const db = require('./database');
 const Promise = require('bluebird');
 const request = require('request');
 
-const serverPort = process.env.PORT || 4242;
+const SERVER_PORT = process.env.PORT || 4242;
+
+const DATABASE_CONNECTED_MESSAGE_PREFIX = 'Database connection status: ';
+const DATABASE_CONNECTED_MESSAGE = 'Connected';
+const DATABASE_NOT_CONNECTED_MESSAGE = 'NOT connected';
 
 const app = express();
 
-app.use(express.static(`${__dirname}/../client`));
-app.use(express.static(`${__dirname}/../node_modules`));
-
-app.use('/test', (req, res) => {
-  const message = `Server ${(db.connection.readyState === 1) ? 'is' : 'is NOT'} connected to the database.`;
+app.get('/test', (req, res) => {
+  const message = DATABASE_CONNECTED_MESSAGE_PREFIX +
+    ((db.mongoose.connection.readyState === 1) ? DATABASE_CONNECTED_MESSAGE : DATABASE_NOT_CONNECTED_MESSAGE);
   res.status(200).send(message);
 });
+
+app.use(express.static(`${__dirname}/../client`));
+app.use(express.static(`${__dirname}/../node_modules`));
 
 // Query Spotify's Search API for a track name, and return an array of all matching tracks. Each track in the response will
 // be an object with properties uri and artist name.
@@ -42,10 +47,12 @@ app.get('/tracks', (req, res) => {
 
 app.listen = Promise.promisify(app.listen);
 app.start = function() {
-  app.listen(serverPort)
+  app.listen(SERVER_PORT)
     .then(() => {
-      console.log(`Tribal server is listening on port ${serverPort}.`);
+      console.log(`Tribal server is listening on port ${SERVER_PORT}.`);
     });
 };
 
 module.exports = app;
+module.exports.DATABASE_CONNECTED_MESSAGE_PREFIX = DATABASE_CONNECTED_MESSAGE_PREFIX;
+module.exports.DATABASE_CONNECTED_MESSAGE = DATABASE_CONNECTED_MESSAGE;
