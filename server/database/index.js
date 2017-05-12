@@ -31,7 +31,7 @@ const insertSong = function(id, song) {
     });
 };
 
-module.exports = mongoose;
+module.exports.mongoose = mongoose;
 module.exports.getAllPlayLists = getAllPlayLists;
 module.exports.getSinglePlayList = getSinglePlayList;
 module.exports.insertSong = insertSong;
