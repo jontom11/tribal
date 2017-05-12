@@ -7,6 +7,7 @@
 | `GET`  | `/`      | n/a | Serve up client application.                |
 | `GET`  | `/test`  | n/a | Returns text status of database connection. |
 | `GET`  | `/`      | `playlist`: `_id` of `PlaylistSchema` document | Used to access a particular playlist | 
+| `GET`  | `/tracks` | `trackName`: Search query to send to Spotify | Return Spotify Search API results for specified query.  Results are array of { uri: String, artist: String } | 
 
 ## Socket.IO API
 
