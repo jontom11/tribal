@@ -28,6 +28,7 @@ module.exports = function(config) {
     files: [
       'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
+      'node_modules/socket.io-client/dist/socket.io.js',
       'client/index.js',
       'client/templates/*.html',
       'client/**/*.js',

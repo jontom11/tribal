@@ -3,20 +3,24 @@ const db = require('./database');
 const Promise = require('bluebird');
 const request = require('request');
 
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
 const SERVER_PORT = process.env.PORT || 4242;
 
 const DATABASE_CONNECTED_MESSAGE_PREFIX = 'Database connection status: ';
 const DATABASE_CONNECTED_MESSAGE = 'Connected';
 const DATABASE_NOT_CONNECTED_MESSAGE = 'NOT connected';
 
-const app = express();
-
+// test endpoint for reporting status of database connection
 app.get('/test', (req, res) => {
   const message = DATABASE_CONNECTED_MESSAGE_PREFIX +
     ((db.mongoose.connection.readyState === 1) ? DATABASE_CONNECTED_MESSAGE : DATABASE_NOT_CONNECTED_MESSAGE);
   res.status(200).send(message);
 });
 
+// serve up client files
 app.use(express.static(`${__dirname}/../client`));
 app.use(express.static(`${__dirname}/../node_modules`));
 
@@ -44,10 +48,19 @@ app.get('/tracks', (req, res) => {
   });
 });
 
+// socket.io framework
+io.on('connection', function(client) {
+  console.log('a user connected');
 
-app.listen = Promise.promisify(app.listen);
+  client.on('disconnect', function() {
+    console.log('user disconnected');
+  });
+});
+
+// start the webserver
+http.listen = Promise.promisify(http.listen);
 app.start = function() {
-  app.listen(SERVER_PORT)
+  http.listen(SERVER_PORT)
     .then(() => {
       console.log(`Tribal server is listening on port ${SERVER_PORT}.`);
     });
