@@ -2,14 +2,15 @@ const Promise = require( 'bluebird' );
 const mongoose = require( 'mongoose' );
 mongoose.Promise = Promise;
 
-const databaseUrl = process.env.MONGODB_URI || 'mongodb://localhost/tribal';
+const DATABASE_URL = process.env.MONGODB_URI || 'mongodb://localhost/tribal';
 
-mongoose.connect( databaseUrl )
+mongoose.connect( DATABASE_URL )
   .then( () => {
-    console.log( `Connected to database at ${databaseUrl}.` );
+    console.log( `Connected to database at ${DATABASE_URL}.` );
   })
   .catch( (err) => {
     console.log( err );
   });
 
 module.exports = mongoose;
+module.exports.DATABASE_URL = DATABASE_URL;

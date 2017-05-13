@@ -21,6 +21,15 @@ app.get('/test', (req, res) => {
   res.status(200).send(message);
 });
 
+app.get('/clients', (req, res) => {
+  let message = '';
+  let clients = io.sockets.connected;
+  for ( client in clients ) {
+    message += `Rooms for ${client}: ${JSON.stringify(clients[client].rooms)}\n`;
+  }
+  res.status(200).send(message);
+});
+
 // serve up client files
 app.use(express.static(`${__dirname}/../client`));
 app.use(express.static(`${__dirname}/../node_modules`));
@@ -43,7 +52,6 @@ app.get('/tracks', (req, res) => {
     tracks = parsedBody.tracks.items.map(track => {
       return {uri: track.uri, artist: track.artists[0].name};
     });
-    console.log(tracks);
     res.status(200).send(tracks);
     return;
   });
@@ -53,16 +61,50 @@ app.get('/tracks', (req, res) => {
 var testId = mongoose.Types.ObjectId();
 
 // socket.io framework
-io.on('connection', function(client) {
-  console.log('a user connected');
-
+io.on( 'connection', function(client) {
   client.on('add song', (uri) => {
     db.insertSong(testId, uri);
     io.emit('song added', uri);
   });
 
+  client.on( 'playlist', function(playlistId, callback) {
+    let playlist;
+    let p;
+
+    if ( playlistId ) {
+      console.log( `Client requesting playlist ${playlistId}` );
+
+      p = db.getSinglePlayList( playlistId )
+        .then( (doc) => {
+          if ( !doc ) {
+            throw new Error( 'playListNotFound' );
+          }
+          return doc;
+        })
+        .catch(
+          (err) => (err.message === 'playListNotFound' ),
+          () => {
+            return db.createPlayList();
+          });
+
+    } else {
+
+      console.log( 'Client requesting new playlist' );
+      p = db.createPlayList();
+    }
+
+    p.then( (doc) => {
+      // put this client in a socket.io room corresponding to this playlist
+      client.join( doc._id.toString() );
+      callback({ _id: doc._id.toString(), songs: doc.songs });
+    })
+    .catch( (err) => {
+      console.log( err );
+    });
+  });
+
   client.on('disconnect', function() {
-    console.log('user disconnected');
+    // POST-MVP: clean up empty playlists here
   });
 });
 
@@ -70,12 +112,13 @@ io.on('connection', function(client) {
 // start the webserver
 http.listen = Promise.promisify(http.listen);
 app.start = function() {
-  http.listen(SERVER_PORT)
+  return http.listen(SERVER_PORT)
     .then(() => {
       console.log(`Tribal server is listening on port ${SERVER_PORT}.`);
     });
 };
 
 module.exports = app;
+module.exports.SERVER_PORT = SERVER_PORT;
 module.exports.DATABASE_CONNECTED_MESSAGE_PREFIX = DATABASE_CONNECTED_MESSAGE_PREFIX;
 module.exports.DATABASE_CONNECTED_MESSAGE = DATABASE_CONNECTED_MESSAGE;
