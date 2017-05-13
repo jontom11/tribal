@@ -43,7 +43,6 @@ app.get('/tracks', (req, res) => {
     tracks = parsedBody.tracks.items.map(track => {
       return {uri: track.uri, artist: track.artists[0].name};
     });
-    console.log(tracks);
     res.status(200).send(tracks);
     return;
   });
@@ -80,12 +79,13 @@ io.on( 'connection', function(client) {
 // start the webserver
 http.listen = Promise.promisify(http.listen);
 app.start = function() {
-  http.listen(SERVER_PORT)
+  return http.listen(SERVER_PORT)
     .then(() => {
       console.log(`Tribal server is listening on port ${SERVER_PORT}.`);
     });
 };
 
 module.exports = app;
+module.exports.SERVER_PORT = SERVER_PORT;
 module.exports.DATABASE_CONNECTED_MESSAGE_PREFIX = DATABASE_CONNECTED_MESSAGE_PREFIX;
 module.exports.DATABASE_CONNECTED_MESSAGE = DATABASE_CONNECTED_MESSAGE;
