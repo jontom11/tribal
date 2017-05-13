@@ -53,18 +53,27 @@ describe( 'tribal server:', function() {
       });
     });
 
-    describe( 'getSinglePlaylist', function() {
+    describe( 'getSinglePlayList', function() {
 
-      it( 'correctly finds a playlist', function() {
+      it( 'correctly finds a playlist by id', function() {
+
+        let expectedPlayList = testData.playlists[0];
+
+        return db.getSinglePlayList(expectedPlayList._id.toString())
+          .then( (playlist) => {
+            playlist = playlist.toObject();
+            expect(playlist).to.deep.equal(expectedPlayList);
+          });
+      });
+
+      it( 'correctly finds a playlist by name', function() {
 
         let expectedPlayList = testData.playlists[0];
 
         return db.getSinglePlayList(expectedPlayList.name)
-          .then( (playlists) => {
-            expect(playlists.length).to.equal(1);
-            let actualPlayList = playlists[0];
-            actualPlayList = actualPlayList.toObject();
-            expect(actualPlayList).to.deep.equal(expectedPlayList);
+          .then( (playlist) => {
+            playlist = playlist.toObject();
+            expect(playlist).to.deep.equal(expectedPlayList);
           });
       });
     });
@@ -94,14 +103,14 @@ describe( 'tribal server:', function() {
 
         return db.getSinglePlayList(newListName)
           .then( (list) => {
-            expect(list.length).to.equal(0);
+            expect(list).to.be.null;
             return db.createPlayList(newListName);
           })
           .then( () => {
             return db.getSinglePlayList(newListName);
           })
           .then( (newList) => {
-            expect(newList.length).to.equal(1);
+            expect(newList instanceof db.mongoose.Model).to.be.true;
           });
       });
 

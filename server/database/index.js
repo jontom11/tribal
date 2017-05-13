@@ -17,14 +17,20 @@ const getAllPlayLists = function() {
   return PlayList.find({});
 };
 
-// getSinglePlayList retrieves a single PlayList associated with the given name
-const getSinglePlayList = function(name) {
-  return PlayList.find({name: name});
+// getSinglePlayList retrieves a single PlayList associated with the given id or name
+// returns promise, resolves with playlist document
+const getSinglePlayList = function( idOrName ) {
+  debugger;
+  if ( /^[0-9a-f]{24}$/.test(idOrName) ) {
+    return PlayList.findById( idOrName );
+  } else {
+    return PlayList.findOne({ name: idOrName });
+  }
 };
 
 // insertSong inserts a song(s) into the db
 const insertSong = function(id, song) {
-  return PlayList.findById(id)
+  return getSinglePlayList( id )
     .then(playList => {
       playList.songs.push(song);
       return playList.save();
