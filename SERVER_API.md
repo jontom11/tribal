@@ -6,6 +6,7 @@
 | - | - | - | - |
 | `GET`  | `/`      | n/a | Serve up client application.                |
 | `GET`  | `/test`  | n/a | Returns text status of database connection. |
+| `GET`  | `/clients`  | n/a | Returns debugging info about current socket.io clients. |
 | `GET`  | `/tracks` | `trackName`: Search query to send to Spotify | Return Spotify Search API results for specified query.  Results are array of { uri: String, artist: String } | 
 
 ## Socket.IO API

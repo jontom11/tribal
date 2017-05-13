@@ -21,6 +21,15 @@ app.get('/test', (req, res) => {
   res.status(200).send(message);
 });
 
+app.get('/clients', (req, res) => {
+  let message = '';
+  let clients = io.sockets.connected;
+  for ( client in clients ) {
+    message += `Rooms for ${client}: ${JSON.stringify(clients[client].rooms)}\n`;
+  }
+  res.status(200).send(message);
+});
+
 // serve up client files
 app.use(express.static(`${__dirname}/../client`));
 app.use(express.static(`${__dirname}/../node_modules`));
@@ -53,25 +62,49 @@ var testId = mongoose.Types.ObjectId();
 
 // socket.io framework
 io.on( 'connection', function(client) {
-  console.log('a user connected');
-
   client.on('add song', (uri) => {
     db.insertSong(testId, uri);
     io.emit('song added', uri);
   });
 
-  client.on('disconnect', function() {
-    console.log('user disconnected');
-  });
-
   client.on( 'playlist', function(playlistId, callback) {
+    let playlist;
+    let p;
+
     if ( playlistId ) {
       console.log( `Client requesting playlist ${playlistId}` );
-      callback({ _id: playlistId, songs: ['great song'] });
+
+      p = db.getSinglePlayList( playlistId )
+        .then( (doc) => {
+          if ( !doc ) {
+            throw new Error( 'playListNotFound' );
+          }
+          return doc;
+        })
+        .catch(
+          (err) => (err.message === 'playListNotFound' ),
+          () => {
+            return db.createPlayList();
+          });
+
     } else {
+
       console.log( 'Client requesting new playlist' );
-      callback({ _id: 42, songs: ['new song'] });
+      p = db.createPlayList();
     }
+
+    p.then( (doc) => {
+      // put this client in a socket.io room corresponding to this playlist
+      client.join( doc._id.toString() );
+      callback({ _id: doc._id.toString(), songs: doc.songs });
+    })
+    .catch( (err) => {
+      console.log( err );
+    });
+  });
+
+  client.on('disconnect', function() {
+    // POST-MVP: clean up empty playlists here
   });
 });
 

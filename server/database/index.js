@@ -3,7 +3,6 @@ const mongoose = require( './init' );
 const PlayListSchema = mongoose.Schema({
   name: {
     type: String,
-    unique: true
   },
   songs: [{
     uri: String
