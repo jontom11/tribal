@@ -53,7 +53,7 @@ app.get('/tracks', (req, res) => {
 var testId = mongoose.Types.ObjectId();
 
 // socket.io framework
-io.on('connection', function(client) {
+io.on( 'connection', function(client) {
   console.log('a user connected');
 
   client.on('add song', (uri) => {
@@ -63,6 +63,16 @@ io.on('connection', function(client) {
 
   client.on('disconnect', function() {
     console.log('user disconnected');
+  });
+
+  client.on( 'playlist', function(playlistId, callback) {
+    if ( playlistId ) {
+      console.log( `Client requesting playlist ${playlistId}` );
+      callback({ _id: playlistId, songs: ['great song'] });
+    } else {
+      console.log( 'Client requesting new playlist' );
+      callback({ _id: 42, songs: ['new song'] });
+    }
   });
 });
 

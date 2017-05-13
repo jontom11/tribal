@@ -6,6 +6,13 @@ const MainController = function( tribalServer, $location ) {
     });
 
   let socket = io();
+
+  // get (new or existing) playlist from server
+  let urlParams = $location.search();
+  socket.emit( 'playlist', urlParams.playlist, (res) => {
+    $location.search( 'playlist', res._id );
+    this.songs = res.songs;
+  });
 };
 
 const Main = function() {
