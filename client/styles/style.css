@@ -33,14 +33,29 @@ div.container {
 
 #searchBar {
   background-color: #000000;
-  color: #FFCC99;
+  color: #FF9944;
   text-shadow: 2px 2px #000000;
   background-image: url("../resources/fish02.png");
   background-size: cover;
-  height: 100px;
+  height: auto;
   width: 100%;
   border: solid 2px;
   font-weight: bold;
+}
+
+th, td {
+  padding: 4px;
+}
+
+#searchForm {
+  padding: 12px
+}
+
+#searchButton {
+  background-color: #000000;
+  color: #FF9944;
+  font-weight: bold;
+  padding: 3px;
 }
 
 #searchResults {
@@ -48,6 +63,7 @@ div.container {
   height: 100px;
   width: 40%;
   border: solid 2px;
+  padding: 3px
 }
 
 #tribelist {
@@ -56,6 +72,7 @@ div.container {
   width: 60%;
   font-weight: bold;
   border: solid 2px;
+  padding: 3px;
 }
 /*
 .appColumns {
