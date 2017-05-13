@@ -19,7 +19,6 @@ const getAllPlayLists = function() {
 // getSinglePlayList retrieves a single PlayList associated with the given id or name
 // returns promise, resolves with playlist document
 const getSinglePlayList = function( idOrName ) {
-  debugger;
   if ( /^[0-9a-f]{24}$/.test(idOrName) ) {
     return PlayList.findById( idOrName );
   } else {
