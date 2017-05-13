@@ -1,5 +1,12 @@
 const TribelistController = function( tribalServer, $location, $scope ) {
 
+  this.songAddedHandler = (uri) => {
+    this.playlist.push( uri );
+    $scope.$apply();
+  };
+
+  tribalServer.registerSongAddedHandler( this.songAddedHandler );
+
   tribalServer.getPlaylist( $location.search().playlist, (res) => {
     $location.search( 'playlist', res._id );
     this.playlist = res.songs;

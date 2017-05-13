@@ -57,16 +57,26 @@ app.get('/tracks', (req, res) => {
   });
 });
 
-// create a mongoose id
-var testId = mongoose.Types.ObjectId();
-
 // socket.io framework
 io.on( 'connection', function(client) {
+
   client.on('add song', (uri) => {
-    db.insertSong(testId, uri);
-    io.emit('song added', uri);
+    console.log( 'Client adding song', uri );
+    // the playlistId is the name of a room that this socket is in
+    let playlistId;
+    for ( room in client.rooms ) {
+      // each socket is also in a room matching its own ID, so let's filter that out
+      if ( room !== client.id ) {
+        playlistId = room;
+      }
+    }
+    console.log( '  for playlist', playlistId );
+    db.insertSong(playlistId, {uri: uri});
+    // transmit the confirmation to ALL clients working with this playlist
+    io.in(playlistId).emit('song added', uri);
   });
 
+  // (new or existing) playlist requests
   client.on( 'playlist', function(playlistId, callback) {
     let playlist;
     let p;

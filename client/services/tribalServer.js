@@ -1,4 +1,5 @@
 const tribalServer = function( $http ) {
+
   let socket = io();
 
   this.test = function() {
@@ -8,6 +9,15 @@ const tribalServer = function( $http ) {
   // get (new or existing) playlist from server
   this.getPlaylist = function( playlistId, callback ) {
     socket.emit( 'playlist', playlistId, callback );
+  };
+
+  // request that the server add a song to the playlist
+  this.addSong = function( uri ) {
+    socket.emit( 'add song', uri );
+  };
+
+  this.registerSongAddedHandler = function( callback ) {
+    socket.on( 'song added', callback );
   };
 };
 
