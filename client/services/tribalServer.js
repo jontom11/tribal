@@ -20,7 +20,7 @@ const tribalServer = function( $http ) {
     socket.on( 'song added', callback );
   };
 
-  this.search = function(trackName) {
+  this.spotifySearch = function(trackName) {
     return $http.get( '/tracks', {
       params: {
         trackName: trackName,

@@ -1,12 +1,10 @@
-const SearchResultsController = function() {
-
-};
-
 const SearchResults = function() {
   return {
-    scope: {},
+    scope: {
+      searchResults: '<',
+    },
     restrict: 'E',
-    controller: SearchResultsController,
+    controller: () => {},
     controllerAs: 'ctrl',
     bindToController: true,
     templateUrl: '/templates/searchResults.html'

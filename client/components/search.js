@@ -1,12 +1,17 @@
-const SearchController = function() {
+const SearchController = function( tribalServer ) {
 
+  this.searchButtonHandler = (query) => {
+    tribalServer.spotifySearch( query, this.searchResultsHandler );
+  };
 };
 
 const Search = function() {
   return {
-    scope: {},
+    scope: {
+      searchResultsHandler: '<',
+    },
     restrict: 'E',
-    controller: function() {},
+    controller: [ 'tribalServer', SearchController ],
     controllerAs: 'ctrl',
     bindToController: true,
     templateUrl: '/templates/search.html'

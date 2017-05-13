@@ -4,6 +4,10 @@ const MainController = function( tribalServer ) {
     .then( (res) => {
       this.messageFromServer = res.data;
     });
+
+  this.searchResultsHandler = (results) => {
+    this.searchResults = results.map( result => result.uri );
+  };
 };
 
 const Main = function() {
