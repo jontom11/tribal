@@ -31,6 +31,8 @@ const insertSong = function(id, song) {
     });
 };
 
+// create a new playlist, 'name', populated with no songs
+// return promise, resolves with new document
 const createPlayList = function( name ) {
   return PlayList.create({ name: name });
 };
