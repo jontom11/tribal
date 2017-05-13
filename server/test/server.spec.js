@@ -12,9 +12,9 @@ const mongoDriver = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 const testData = require('./testData');
 
-describe( 'tribal server: ', function() {
+describe( 'tribal server:', function() {
 
-  describe( 'database layer: ', function() {
+  describe( 'database layer:', function() {
 
     let mongo;
 
@@ -86,6 +86,43 @@ describe( 'tribal server: ', function() {
       });
     });
 
+    describe( 'createPlayList', function() {
+
+      let newListName = 'newList';
+
+      it( 'successfully creates a playlist with the supplied name', function() {
+
+        return db.getSinglePlayList(newListName)
+          .then( (list) => {
+            expect(list.length).to.equal(0);
+            return db.createPlayList(newListName);
+          })
+          .then( () => {
+            return db.getSinglePlayList(newListName);
+          })
+          .then( (newList) => {
+            expect(newList.length).to.equal(1);
+          });
+      });
+
+      it( 'returns the new playlist with the resolved promise', function() {
+
+        return db.createPlayList(newListName)
+          .then( (newList) => {
+            expect(newList instanceof db.mongoose.Model).to.be.true;
+            expect(newList.name).to.equal(newListName);
+          });
+      });
+
+      it( 'creates a playlist with no songs', function() {
+
+        return db.createPlayList(newListName)
+          .then( (newList) => {
+            expect(newList.songs.length).to.equal(0);
+          });
+      });
+    });
+
   });
 
   describe( 'HTTP request handling', function() {
@@ -108,6 +145,9 @@ describe( 'tribal server: ', function() {
     });
 
     it( 'returns status 200 in response to GET /tracks', function() {
+
+      this.timeout(5000);
+
       return request(server)
       .get('/tracks')
       .expect(200);

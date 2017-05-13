@@ -31,7 +31,12 @@ const insertSong = function(id, song) {
     });
 };
 
+const createPlayList = function( name ) {
+  return PlayList.create({ name: name });
+};
+
 module.exports.mongoose = mongoose;
 module.exports.getAllPlayLists = getAllPlayLists;
 module.exports.getSinglePlayList = getSinglePlayList;
 module.exports.insertSong = insertSong;
+module.exports.createPlayList = createPlayList;
