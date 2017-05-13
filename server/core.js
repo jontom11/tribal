@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('./database');
 const Promise = require('bluebird');
 const request = require('request');
+const mongoose = require('mongoose');
 
 const app = express();
 const http = require('http').Server(app);
@@ -48,14 +49,23 @@ app.get('/tracks', (req, res) => {
   });
 });
 
+// create a mongoose id
+var testId = mongoose.Types.ObjectId();
+
 // socket.io framework
 io.on('connection', function(client) {
   console.log('a user connected');
+
+  client.on('add song', (uri) => {
+    db.insertSong(testId, uri);
+    io.emit('song added', uri);
+  });
 
   client.on('disconnect', function() {
     console.log('user disconnected');
   });
 });
+
 
 // start the webserver
 http.listen = Promise.promisify(http.listen);
