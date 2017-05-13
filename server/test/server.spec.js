@@ -1,4 +1,6 @@
 const Promise = require('bluebird');
+const _ = require('underscore');
+
 const expect = require('chai').expect;
 const request = require('supertest');
 
@@ -6,9 +8,85 @@ const server = require('../core');
 const io = require('socket.io-client');
 
 const db = require('../database');
+const mongoDriver = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 const testData = require('./testData');
 
-describe( 'tribal server', function() {
+describe( 'tribal server: ', function() {
+
+  describe( 'database layer: ', function() {
+
+    let mongo;
+
+    before( function() {
+      return mongoDriver.connect( db.mongoose.DATABASE_URL, {promiseLibrary: Promise} )
+        .then( (mongoDb) => {
+          mongo = mongoDb;
+        });
+    });
+
+    after( function() {
+      return mongo.close();
+    });
+
+    beforeEach( function() {
+      return mongo.collection('playlists').deleteMany()
+        .then( () => {
+          testData.playlists.forEach( (playlist) => {
+            playlist._id = new ObjectID();
+          });
+          return mongo.collection('playlists').insertMany(testData.playlists);
+        });
+    });
+
+    describe( 'getAllPlayLists', function() {
+
+      it( 'reads all playlists', function() {
+
+        return db.getAllPlayLists()
+          .then( (playlists) => {
+            playlists = playlists.map( (playlist) => playlist.toObject() );
+            playlists = _(playlists).sortBy( '_id' );
+            let expected = _(testData.playlists).sortBy( '_id' );
+            expect(playlists).to.deep.equal(expected);
+          });
+      });
+    });
+
+    describe( 'getSinglePlaylist', function() {
+
+      it( 'correctly finds a playlist', function() {
+
+        let expectedPlayList = testData.playlists[0];
+
+        return db.getSinglePlayList(expectedPlayList.name)
+          .then( (playlists) => {
+            expect(playlists.length).to.equal(1);
+            let actualPlayList = playlists[0];
+            actualPlayList = actualPlayList.toObject();
+            expect(actualPlayList).to.deep.equal(expectedPlayList);
+          });
+      });
+    });
+
+    describe( 'insertSong', function() {
+
+      it( 'correctly adds a song to a playlist', function() {
+
+        let newSong = { uri: 'spotify:track:6HLJuAenKW89zYAZOstC2z' };
+        let expectedPlayList = _(testData.playlists[0]).clone();
+        expectedPlayList.songs.push( newSong );
+        let playListId = expectedPlayList._id;
+
+        return db.insertSong(playListId, newSong)
+          .then( (actualPlayList) => {
+            let actualSongs = actualPlayList.songs.map( (song) => ({ uri: song.uri }) );
+            expect(actualSongs).to.deep.equal(expectedPlayList.songs);
+          });
+      });
+    });
+
+  });
 
   describe( 'HTTP request handling', function() {
 
@@ -36,7 +114,7 @@ describe( 'tribal server', function() {
     });
   });
 
-  describe( 'socket.io events', function() {
+  describe( 'socket.io handling', function() {
 
     let client;
 
