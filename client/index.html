@@ -9,6 +9,17 @@
     <script src="index.js"></script>
     <script src="services/tribalServer.js"></script>
     <script src="components/main.js"></script>
+    <script>
+      var socket = io();
+      var uriTest = 'someUri';
+      // var id = '_id';
+      socket.on('song added', function(uri) {
+        console.log('Hey - this worked. Song added ',  uri);
+      });
+      socket.emit('add song', uriTest);
+
+
+    </script>
   </head>
   <body>
     <main></main>

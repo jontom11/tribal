@@ -52,10 +52,16 @@ app.get('/tracks', (req, res) => {
 io.on('connection', function(client) {
   console.log('a user connected');
 
+  client.on('add song', (uri) => {
+    // db.insertSong(playListId, uri);
+    io.emit('song added', uri);
+  });
+
   client.on('disconnect', function() {
     console.log('user disconnected');
   });
 });
+
 
 // start the webserver
 http.listen = Promise.promisify(http.listen);
