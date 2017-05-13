@@ -1,3 +1,65 @@
-* {
-  font-family: sans-serif;
+body {
+  background-color: #AADDFF;
 }
+
+h1 {
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px #000000;
+  font-size: 72px;
+}
+
+h2 {
+  color: black;
+  text-align: center;
+  font-size: 24px;
+}
+
+div {
+  text-align: center;
+  font-family: "OCR A";
+  font-size: 16px;
+}
+
+div.container {
+  text-align: center;
+  width: 100%;
+  border: 1px solid gray;
+}
+
+#songData {
+  display: flex;
+}
+
+#searchBar {
+  background-color: #000000;
+  color: #FFCC99;
+  text-shadow: 2px 2px #000000;
+  background-image: url("../resources/fish02.png");
+  background-size: cover;
+  height: 100px;
+  width: 100%;
+  border: solid 2px;
+  font-weight: bold;
+}
+
+#searchResults {
+  background-color: #FFCC99;
+  height: 100px;
+  width: 40%;
+  border: solid 2px;
+}
+
+#tribelist {
+  background-color: #FFCC99;
+  height: 100px;
+  width: 60%;
+  font-weight: bold;
+  border: solid 2px;
+}
+/*
+.appColumns {
+  display: inline;
+  vertical-align: top;
+}
+*/

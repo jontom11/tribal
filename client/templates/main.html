@@ -1,34 +1,23 @@
 {{ ctrl.messageFromServer }}
+<div class="container">
 
-<CENTER>
   <H1>TRIBAL{{'\u2122'}}</H1>
-  <H4>Soundtrack To A Generation</H4>
-</CENTER>
+  <H2>Soundtrack To A Generation</H2>
 
-<div>
-<tribal-search />
+  <div id="searchBar">
+    <tribal-search />
+  </div>
+
+  <div id="songData">
+    
+    <div class="appColumns" id="searchResults">
+      <search-results />
+    </div>
+    
+    <div class="appColumns" id="tribelist">
+      <tribelist />
+    </div>
+    
+  </div>
+  
 </div>
-
-<div>
-<span>
-  <search-results />
-</span>
-<span>
-  <tribelist />
-</span>
-</div>
-
-
-
-
-
-
-
-
-<!--
-
-APP NAME
-SEARCH COMPONENT
-<SPAN>SEARCH RESULTS COMPONENT</SPAN> <SPAN>PLAYLIST COMPONENT</SPAN>
-
--->
