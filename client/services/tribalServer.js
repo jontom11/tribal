@@ -19,6 +19,14 @@ const tribalServer = function( $http ) {
   this.registerSongAddedHandler = function( callback ) {
     socket.on( 'song added', callback );
   };
+
+  this.search = function(trackName) {
+    return $http.get( '/tracks', {
+      params: {
+        trackName: trackName,
+      }
+    });
+  };
 };
 
 angular.module('tribal').service('tribalServer', ['$http', tribalServer]);
