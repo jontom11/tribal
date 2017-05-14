@@ -6,7 +6,7 @@ const MainController = function( tribalServer, $scope ) {
     });
 
   this.searchResultsHandler = (results) => {
-    this.searchResults = results.map( result => result.uri );
+    this.searchResults = results.data.map( result => result.uri );
     $scope.$apply();
   };
 };
