@@ -10,7 +10,7 @@ const colorWave = function() {
   var newBackgroundColor = 'rgb(' + a + ',' + Math.floor(Math.abs(b - 255)) + ',' + Math.floor(Math.abs(c)) + ')';
   var newTextColor = 'rgb(' + (a + 127) + ',' + Math.floor(Math.abs(b - 127)) + ',' + Math.floor(Math.abs(c + 64)) + ')';
   // document.body.style.backgroundColor = newColor;
-  var elem = document.getElementById('tribelist');
+  var elem = document.getElementById('playlist');
   elem.style.backgroundColor = newBackgroundColor;
   elem.style.color = newTextColor;
 

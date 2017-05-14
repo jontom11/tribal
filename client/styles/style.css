@@ -71,7 +71,11 @@ th, td {
   padding: 3px
 }
 
-#tribelist {
+.searchResult{
+  padding: 0 0 50px 0;
+}
+
+#playlist {
   height: auto;
   width: 60%;
   font-weight: bold;

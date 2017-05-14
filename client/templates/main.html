@@ -1,21 +1,20 @@
-{{ ctrl.messageFromServer }}
 <div class="container">
 
   <H1>TRIBAL{{'\u2122'}}</H1>
   <H2>Soundtrack To A Generation</H2>
 
   <div id="searchBar">
-    <tribal-search />
+    <search search-results-handler="ctrl.searchResultsHandler" />
   </div>
 
   <div id="songData">
 
     <div class="appColumns" id="searchResults">
-      <search-results />
+      <search-results search-results="ctrl.searchResults" />
     </div>
 
-    <div class="appColumns" id="tribelist">
-      <tribelist />
+    <div class="appColumns" id="playlist">
+      <playlist />
     </div>
 
   </div>

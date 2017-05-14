@@ -1,16 +1,21 @@
-const MainController = function( tribalServer ) {
+const MainController = function( tribalServer, $scope ) {
 
   tribalServer.test()
     .then( (res) => {
       this.messageFromServer = res.data;
     });
+
+  this.searchResultsHandler = (results) => {
+    this.searchResults = results.data.map( result => result.uri );
+    $scope.$apply();
+  };
 };
 
 const Main = function() {
   return {
     scope: {},
     restrict: 'E',
-    controller: [ 'tribalServer', MainController ],
+    controller: [ 'tribalServer', '$scope', MainController ],
     controllerAs: 'ctrl',
     bindToController: true,
     templateUrl: '/templates/main.html',
