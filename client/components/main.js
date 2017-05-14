@@ -6,6 +6,7 @@ const MainController = function( tribalServer ) {
     });
 
   this.searchResultsHandler = (results) => {
+    debugger;
     this.searchResults = results.map( result => result.uri );
   };
 };

@@ -1,7 +1,11 @@
 const SearchController = function( tribalServer ) {
 
   this.searchButtonHandler = (query) => {
-    tribalServer.spotifySearch( query, this.searchResultsHandler );
+    tribalServer.spotifySearch( query )
+      .then( (results) => {
+        debugger;
+        this.searchResultsHandler( results );
+      });
   };
 };
 
