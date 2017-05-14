@@ -71,6 +71,10 @@ th, td {
   padding: 3px
 }
 
+.searchResult{
+  padding: 0 0 50px 0;
+}
+
 #playlist {
   height: auto;
   width: 60%;
