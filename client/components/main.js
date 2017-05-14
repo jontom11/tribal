@@ -1,4 +1,4 @@
-const MainController = function( tribalServer ) {
+const MainController = function( tribalServer, $scope ) {
 
   tribalServer.test()
     .then( (res) => {
@@ -6,8 +6,8 @@ const MainController = function( tribalServer ) {
     });
 
   this.searchResultsHandler = (results) => {
-    debugger;
     this.searchResults = results.map( result => result.uri );
+    $scope.$apply();
   };
 };
 
@@ -15,7 +15,7 @@ const Main = function() {
   return {
     scope: {},
     restrict: 'E',
-    controller: [ 'tribalServer', MainController ],
+    controller: [ 'tribalServer', '$scope', MainController ],
     controllerAs: 'ctrl',
     bindToController: true,
     templateUrl: '/templates/main.html',
