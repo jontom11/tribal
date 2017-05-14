@@ -1,23 +1,26 @@
 body {
-  background-color: #AADDFF;
+  background-color: #555555;
+  font-family: "Segoe UI Light";
+  background-image: url("../resources/BackgroundImageFromRamsha_02.png");
+
 }
 
 h1 {
-  color: white;
+  color: #000000;
   text-align: center;
-  text-shadow: 2px 2px #000000;
-  font-size: 72px;
+  text-shadow: 1px 1px #555555;
+  font-size: 48px;
 }
 
 h2 {
-  color: black;
+  color: #CC6622;
   text-align: center;
   font-size: 24px;
 }
 
 div {
   text-align: center;
-  font-family: "OCR A";
+  font-family: "Segoe UI Light";
   font-size: 16px;
 }
 
@@ -32,19 +35,22 @@ div.container {
 }
 
 #searchBar {
-  background-color: #000000;
-  color: #FF9944;
-  text-shadow: 2px 2px #000000;
-  background-image: url("../resources/fish02.png");
-  background-size: cover;
+  color: #000000;
   height: auto;
   width: 100%;
-  border: solid 2px;
   font-weight: bold;
 }
 
 th, td {
   padding: 4px;
+}
+
+#inputField {
+  color: #AAAAAA;
+  background-color: #FFFFFF;
+  border: 2px solid black;
+  border-style: groove;
+  border-radius: 6px;
 }
 
 #searchForm {
@@ -53,22 +59,20 @@ th, td {
 
 #searchButton {
   background-color: #000000;
-  color: #FF9944;
-  font-weight: bold;
-  padding: 3px;
+  color: #FFFFFF;
+  padding: 6px;
+  border-radius: 12px;
 }
 
 #searchResults {
-  background-color: #FFCC99;
-  height: 100px;
+  height: auto;
   width: 40%;
   border: solid 2px;
   padding: 3px
 }
 
 #tribelist {
-  background-color: #FFCC99;
-  height: 100px;
+  height: auto;
   width: 60%;
   font-weight: bold;
   border: solid 2px;
