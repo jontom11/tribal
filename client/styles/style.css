@@ -1,15 +1,17 @@
 body {
-  background-color: #555555;
-  font-family: "Segoe UI Light";
-  background-image: url("../resources/BackgroundImageFromRamsha_02.png");
+  font-family: 'Josefin Sans', sans-serif;
+}
 
+html {
+  background: url("../resources/recordPlayer.jpg") no-repeat center center fixed;
+  background-size: cover;
 }
 
 h1 {
   color: #000000;
   text-align: center;
-  text-shadow: 1px 1px #555555;
-  font-size: 48px;
+  font-size: 60px;
+  font-family: 'Barrio', cursive;
 }
 
 h2 {
@@ -18,16 +20,21 @@ h2 {
   font-size: 24px;
 }
 
-div {
+#tribeList {
   text-align: center;
-  font-family: "Segoe UI Light";
+  width: 400px;
+  font-family: 'Barrio', cursive;
+  font-size: 30px;
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+div {
   font-size: 16px;
 }
 
 div.container {
-  text-align: center;
   width: 100%;
-  border: 1px solid gray;
 }
 
 #songData {
@@ -39,6 +46,7 @@ div.container {
   height: auto;
   width: 100%;
   font-weight: bold;
+  margin-left: 65px;
 }
 
 th, td {
@@ -48,43 +56,78 @@ th, td {
 #inputField {
   color: #AAAAAA;
   background-color: #FFFFFF;
-  border: 2px solid black;
   border-style: groove;
   border-radius: 6px;
 }
 
+#songSearch {
+  padding-right: 7px;
+  padding-left: 7px;
+  border-color: black;
+  width: 200px;
+  height: 27px;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
 #searchForm {
-  padding: 12px
+  height: auto;
+}
+
+.addSongButton {
+  font-size: 12px;
 }
 
 #searchButton {
-  background-color: #000000;
-  color: #FFFFFF;
-  padding: 6px;
-  border-radius: 12px;
+  font-size: 16px;
+}
+
+.addSongButton,
+#searchButton {
+  border: none;
+  background-color: black;
+  border-radius: 15px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: white;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.addSongButton {
+  position: absolute;
+  margin-left: 20px;
+  margin-top: 27px;
+}
+
+#songSearch:focus,
+#searchButton:focus,
+.addSongButton:focus {
+  outline: none;
+}
+
+#searchButton:active,
+.addSongButton:active {
+  background-color: #1ED760;
 }
 
 #searchResults {
   height: auto;
-  width: 40%;
-  border: solid 2px;
-  padding: 3px
+  width: 31%;
+  border-right: solid 2px;
+  border-color: black;
+  margin-left: 65px;
+  text-align: left;
+  overflow: hidden;
 }
 
 .searchResult{
-  padding: 0 0 50px 0;
+  margin-bottom: 10px;
 }
 
 #playlist {
   height: auto;
   width: 60%;
   font-weight: bold;
-  border: solid 2px;
   padding: 3px;
+  margin-left: 15%;
 }
-/*
-.appColumns {
-  display: inline;
-  vertical-align: top;
-}
-*/

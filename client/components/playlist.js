@@ -1,7 +1,7 @@
 const PlaylistController = function( tribalServer, $location, $scope ) {
 
   this.songAddedHandler = (uri) => {
-    this.playlist.push({ uri: uri });
+    this.playlist.unshift({ uri: uri });
     $scope.$apply();
   };
 

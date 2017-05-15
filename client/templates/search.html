@@ -1,7 +1,6 @@
 <div id="searchForm">
-  <p>
-    SONG SEARCH
-  </p>
-  <input type="text" ng-model="query">
+<form ng-submit="ctrl.searchButtonHandler(query)">
+  <input type="text" id="songSearch" ng-model="query" placeholder="Search songs">
   <button id="searchButton" ng-click="ctrl.searchButtonHandler(query)">Search</button>
+</form>
 </div>
