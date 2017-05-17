@@ -8,6 +8,9 @@
   "engines": {
     "node": ">=6.4.0"
   },
+  "keywords": [
+    "heroku"
+  ],
   "scripts": {
     "start": "nodemon server",
     "test": "eslint . && PORT=4243 mocha server/test && karma start --single-run"
