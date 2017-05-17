@@ -11,6 +11,11 @@ const tribalServer = function( $http ) {
     socket.emit( 'playlist', playlistId, callback );
   };
 
+  this.likeButton = function(count, song) {
+    // console.log('Like Button Clicked', count)
+    return ()=>{console.log('hi')};
+  }
+
   // request that the server add a song to the playlist
   this.addSong = function( uri ) {
     socket.emit( 'add song', uri );
