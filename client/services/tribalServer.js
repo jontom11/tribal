@@ -27,6 +27,10 @@ const tribalServer = function( $http ) {
       }
     });
   };
+
+  this.facebookAuth = function () {
+    return $http.get( '/auth/facebook' );
+  };
 };
 
 angular.module('tribal').service('tribalServer', ['$http', tribalServer]);

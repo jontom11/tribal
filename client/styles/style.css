@@ -131,3 +131,13 @@ th, td {
   padding: 3px;
   margin-left: 15%;
 }
+
+#loginButton {
+  padding-right: 7px;
+  padding-left: 7px;
+  border-color: black;
+  width: 200px;
+  height: 27px;
+  font-size: 13px;
+  margin-bottom: 10px;
+}

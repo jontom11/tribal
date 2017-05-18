@@ -57,6 +57,11 @@ app.get('/tracks', (req, res) => {
   });
 });
 
+app.get('/auth/facebook', (req, res) => {
+  console.log("this url points to facebook auth");
+  res.send("THIS IS AUTH URL");
+})
+
 // socket.io framework
 io.on( 'connection', function(client) {
 
