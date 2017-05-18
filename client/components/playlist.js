@@ -9,17 +9,17 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
     } else {
       table[song._id]++;
     }
-    tribalServer.likeButton(count, song._id)
+    tribalServer.likeButton(table[song._id], song._id)
     console.log(song._id, 'has been liked:', table[song._id],'times')
   };
 
   this.songAddedHandler = (uri) => {
     this.playlist.push({ uri: uri });
+    Like button
     $scope.$apply();
   };
 
   tribalServer.registerSongAddedHandler( this.songAddedHandler );
-
   tribalServer.getPlaylist( $location.search().playlist, (res) => {
     $location.search( 'playlist', res._id );
     this.playlist = res.songs;

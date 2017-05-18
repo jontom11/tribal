@@ -5,7 +5,8 @@ const PlayListSchema = mongoose.Schema({
     type: String,
   },
   songs: [{
-    uri: String
+    uri: String,
+    count: Number
   }]
 });
 
@@ -20,6 +21,7 @@ const getAllPlayLists = function() {
 // returns promise, resolves with playlist document
 const getSinglePlayList = function( idOrName ) {
   if ( /^[0-9a-f]{24}$/.test(idOrName) ) {
+    // console.log('getSinglePlayList:',PlayList.findById( idOrName ))
     return PlayList.findById( idOrName );
   } else {
     return PlayList.findOne({ name: idOrName });
@@ -35,6 +37,14 @@ const insertSong = function(id, song) {
     });
 };
 
+const insertCount = function(id, song, count) {
+  // return getSinglePlaylist( id )
+  //   .then(playList => {
+  //     // playList.songs._id
+  //     return console.log(playList.songs._id)
+  //   }
+}
+
 // create a new playlist, 'name', populated with no songs
 // return promise, resolves with new document
 const createPlayList = function( name ) {
@@ -45,4 +55,5 @@ module.exports.mongoose = mongoose;
 module.exports.getAllPlayLists = getAllPlayLists;
 module.exports.getSinglePlayList = getSinglePlayList;
 module.exports.insertSong = insertSong;
+module.exports.insertCount = insertCount;
 module.exports.createPlayList = createPlayList;
