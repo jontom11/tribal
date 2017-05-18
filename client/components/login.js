@@ -1,22 +1,17 @@
-const LoginController = function( tribalServer ) {
+angular.module('tribal')
 
+.controller('LoginController', function($scope, $location) {
   this.loginButtonHandler = () => {
-    tribalServer.facebookAuth()
-    .then( (results) => {   
-      console.log('login button clicked!');
-    });
-  };
-};
-
-const Login = function() {
+    console.log("button clicked!!!");
+  }
+})
+.directive('login', function() {
   return {
     scope: {},
     restrict: 'E',
-    controller: [ 'tribalServer', LoginController ],
+    controller: 'LoginController',
     controllerAs: 'ctrl',
     bindToController: true,
     templateUrl: '/templates/login.html'
   };
-};
-
-angular.module('tribal').directive('login', Login);
+});
