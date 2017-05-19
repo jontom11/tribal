@@ -2,7 +2,6 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
   
   //Like button counter
   let table = {};
-  let count = 0;
   this.likeButtonHandler = (song) => {
     if (table[song._id] === undefined) {
       table[song._id] = 1;
@@ -15,7 +14,6 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
 
   this.songAddedHandler = (uri) => {
     this.playlist.push({ uri: uri });
-    Like button
     $scope.$apply();
   };
 
@@ -29,7 +27,11 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
 
 const Playlist = function() {
   return {
-    scope: {},
+    require: '',
+    scope: {
+      onClick: '=',
+      count: '='
+    },
     restrict: 'E',
     controller: [ 'tribalServer', '$location', '$scope', PlaylistController ],
     controllerAs: 'ctrl',

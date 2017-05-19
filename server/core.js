@@ -151,6 +151,8 @@ io.on( 'connection', function(client) {
       if ( room !== client.id ) {
         playlistId = room;
       }
+      console.log('id', playlistId)  // id is not being passed through from core.js
+
     }
     db.insertCount(playlistId, song, count);  // relates to db index.js line 41 
   })

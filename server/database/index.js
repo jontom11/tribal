@@ -6,7 +6,7 @@ const PlayListSchema = mongoose.Schema({
   },
   songs: [{
     uri: String,
-    count: Number
+    count: {type: Number, default: 0}
   }]
 });
 
@@ -37,12 +37,26 @@ const insertSong = function(id, song) {
     });
 };
 
-const insertCount = function(id, song, count) {
-  // return getSinglePlaylist( id )
-  //   .then(playList => {
-  //     // playList.songs._id
-  //     return console.log(playList.songs._id)
-  //   }
+const insertCount = function(id, clickedSong, count) {
+  // if ( /^[0-9a-f]{24}$/.test(id) ) {
+  //   // console.log('getSinglePlayList:',PlayList.findById( id ))
+  //   PlayList.findById( id );
+  // } else {
+  //   PlayList.findOne({ name: id });
+  // }
+
+  return getSinglePlayList( id )
+    .then( playList => {
+      var dbSongs = playList.songs;
+      for (var songIndex = 0; songIndex < dbSongs.length; songIndex++) {
+        var songId = dbSongs[songIndex]._id.toString()
+        // match clicked song to songId in database
+        if (songId === clickedSong) {
+          dbSongs[songIndex].count++;
+          return playList.save()
+        }
+      }
+    })
 }
 
 // create a new playlist, 'name', populated with no songs
