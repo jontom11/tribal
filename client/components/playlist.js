@@ -12,6 +12,12 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
     console.log(song._id, 'has been liked:', table[song._id],'times')
   };
 
+  this.removeSongHandler = (song) => {
+    console.log('Remove that Ish', song)
+    tribalServer.removeButton(song._id)
+    console.log(song._id, 'has been click')
+  }
+
   this.songAddedHandler = (uri) => {
     this.playlist.push({ uri: uri });
     $scope.$apply();
@@ -24,6 +30,7 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
     $scope.$apply();
   });
 };
+
 
 const Playlist = function() {
   return {

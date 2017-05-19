@@ -37,14 +37,25 @@ const insertSong = function(id, song) {
     });
 };
 
-const insertCount = function(id, clickedSong, count) {
-  // if ( /^[0-9a-f]{24}$/.test(id) ) {
-  //   // console.log('getSinglePlayList:',PlayList.findById( id ))
-  //   PlayList.findById( id );
-  // } else {
-  //   PlayList.findOne({ name: id });
-  // }
+const removeSong = function(id, clickedSong) {
+  return getSinglePlayList( id )
+    .then( playList => {
+      var dbSongs = playList.songs;
+      for (var songIndex = 0; songIndex < dbSongs.length; songIndex++) {
+        var songId = dbSongs[songIndex]._id.toString()
+        // match clicked song to songId in database
+          console.log('HERE IS AM', songId, clickedSong)
+        if (songId === clickedSong) {
+          dbSongs.splice(songIndex,1);
+          
+          return playList.save()
+        }
+      }
+    })
+};
 
+// find clicked song in db, increase count, save count to db. 
+const insertCount = function(id, clickedSong, count) {
   return getSinglePlayList( id )
     .then( playList => {
       var dbSongs = playList.songs;
@@ -69,5 +80,6 @@ module.exports.mongoose = mongoose;
 module.exports.getAllPlayLists = getAllPlayLists;
 module.exports.getSinglePlayList = getSinglePlayList;
 module.exports.insertSong = insertSong;
+module.exports.removeSong = removeSong;
 module.exports.insertCount = insertCount;
 module.exports.createPlayList = createPlayList;
