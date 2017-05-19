@@ -1,15 +1,10 @@
 const PlaylistController = function( tribalServer, $location, $scope ) {
   
   //Like button counter
-  let table = {};
   this.likeButtonHandler = (song) => {
-    if (table[song._id] === undefined) {
-      table[song._id] = 1;
-    } else {
-      table[song._id]++;
-    }
-    tribalServer.likeButton(table[song._id], song._id)
-    console.log(song._id, 'has been liked:', table[song._id],'times')
+      console.log('song',song)
+      song.count++;
+    tribalServer.likeButton(song.count, song._id)
   };
 
   this.removeSongHandler = (song) => {

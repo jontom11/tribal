@@ -4,7 +4,7 @@
 
 <div id="likeButton" ng-repeat="song in ctrl.playlist | orderBy:'-count'">
   
-  <button id="searchButton" src="song in ctrl.playlist" ng-click="ctrl.likeButtonHandler(song)" >Like {{song.count}}</button>
+  <button id="searchButton" src="song in ctrl.playlist" ng-click="ctrl.likeButtonHandler(song)" >Like {{song.count}} </button>
 
 	<button id="searchButton" rc="song in ctrl.playlist" class="remove" ng-click="ctrl.removeSongHandler(song)">X</button>
 
