@@ -12,7 +12,7 @@
     "heroku"
   ],
   "scripts": {
-    "start-dev": "nodemon server",
+    "start-dev": "nodemon --inspect server",
     "start": "node server",
     "test": "eslint . && PORT=4243 mocha server/test && karma start --single-run"
   },
