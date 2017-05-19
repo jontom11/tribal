@@ -131,7 +131,8 @@ th, td {
 
 #playlist {
   height: auto;
-  width: 60%;
+  width: 600px;
+
   font-weight: bold;
   padding: 3px;
   margin-top: 115px;

@@ -143,6 +143,35 @@ io.on( 'connection', function(client) {
     io.in(playlistId).emit('song added', uri);
   });
 
+//################ Like Count ################### event listener
+  client.on('like', function(count, song) {
+    let playlistId;
+    for ( room in client.rooms ) {
+      // each socket is also in a room matching its own ID, so let's filter that out
+      if ( room !== client.id ) {
+        playlistId = room;
+      }
+      console.log('id', playlistId)  // id is not being passed through from core.js
+
+    }
+    db.insertCount(playlistId, song, count);  // relates to db index.js line 41 
+  })
+  
+  client.on('remove', function(song) {
+    let playlistId;
+    for ( room in client.rooms ) {
+      // each socket is also in a room matching its own ID, so let's filter that out
+      if ( room !== client.id ) {
+        playlistId = room;
+      }
+      console.log('id', playlistId)  // id is not being passed through from core.js
+
+    }
+    db.removeSong(playlistId, song);  // relates to db index.js line 41 
+  })
+
+
+
   // (new or existing) playlist requests
   client.on( 'playlist', function(playlistId, callback) {
     let playlist;
