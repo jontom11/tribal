@@ -41,10 +41,9 @@ const removeSong = function(playlistId, uri) {
     .then( playList => {
       var dbSongs = playList.songs;
       for (var songIndex = 0; songIndex < dbSongs.length; songIndex++) {
-        var songId = dbSongs[songIndex]._id.toString();
+        var songId = dbSongs[songIndex].uri.toString();
         if (uri === songId) {
           dbSongs.splice(songIndex, 1);
-          
           return playList.save();
         }
       }
