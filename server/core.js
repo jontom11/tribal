@@ -159,16 +159,24 @@ io.on( 'connection', function(client) {
 
     // add unique playlist to user 
     db.User.findOne({email: email}, function (err, user) {      
-      if (user.playlists.indexOf(playlistId) === -1){
-        user.playlists.push(playlistId);
-      }
-      user.save(function (err) {
-        if(err) {
-          console.error('ERROR!');
+      if (err) {
+        throw err;
+        return;
+      } else {
+
+        if(user !== null) {
+          if (user.playlists.indexOf(playlistId) === -1){
+            user.playlists.push(playlistId);
+          }
+          user.save(function (err) {
+            if(err) {
+              console.error('ERROR!');
+            }
+          });
         }
-      });
+      }
     });
-    
+
     // transmit the confirmation to ALL clients working with this playlist
     io.in(playlistId).emit('song added', uri);
   });
