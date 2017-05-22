@@ -154,7 +154,7 @@ io.on( 'connection', function(client) {
         playlistId = room;
       }
     }
-    console.log( '  for playlist', playlistId );
+    console.log( 'for playlist', playlistId );
     db.insertSong(playlistId, {uri: uri});
 
     // add unique playlist to user 
@@ -198,16 +198,15 @@ io.on( 'connection', function(client) {
   });
 
 //################ Like Count ################### event listener
-  client.on('like', function(uri) {
+  client.on('like song', function(uri) {
     let playlistId;
     for ( room in client.rooms ) {
       // each socket is also in a room matching its own ID, so let's filter that out
       if ( room !== client.id ) {
         playlistId = room;
       }
-      console.log('uri', uri);  // id is not being passed through from core.js
     }
-    db.insertCount(playlistId, uri, userAgent);  // relates to db index.js line 41 
+    db.insertCount(playlistId, uri, userAgent); 
     io.in(playlistId).emit('like added' , uri, userAgent);
   });
   

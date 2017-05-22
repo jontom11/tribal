@@ -20,12 +20,9 @@ const tribalServer = function( $http ) {
     socket.on('song removed', (uri) => callback(uri)); 
   };
 
-
-  //#############################################
   
-  this.likeButton = function(uri) {
-    console.log('LIEK?', uri)
-    socket.emit('like', uri );
+  this.likeSong = function(uri) {
+    socket.emit('like song', uri );
   };
 
   this.registerLikeHandler = function ( callback ) {

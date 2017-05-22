@@ -56,6 +56,7 @@ const insertSong = function(id, song) {
   return getSinglePlayList( id )
     .then(playList => {
       playList.songs.push(song);
+      console.log('playlist', playList)
       return playList.save();
     });
 };
@@ -74,7 +75,8 @@ const removeSong = function(playlistId, uri) {
     });
 };
 
-// find clicked song in db, increase count, save count to db. 
+// if userAgent exists inside song count array, remove that userAgent, 
+// if userAgent does not exist, push to song count array
 const insertCount = function(id, clickedSong, userAgent) {
   return getSinglePlayList( id )
     .then( playList => {
@@ -83,13 +85,10 @@ const insertCount = function(id, clickedSong, userAgent) {
         var songId = dbSongs[songIndex].uri.toString();
         // match clicked song to songId in database
         if (songId === clickedSong) {
-          // if userAgent identification does not exists on clicked song
           var indexOfUserAgent = dbSongs[songIndex].count.indexOf(userAgent);
           if ( indexOfUserAgent === -1) {
-            // we push to end of count array
             dbSongs[songIndex].count.push(userAgent);
           } else {
-            // splice at that index 
             dbSongs[songIndex].count.splice(indexOfUserAgent, 1);
           }
           return playList.save();

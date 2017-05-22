@@ -7,9 +7,11 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
 
   //################### remove button ###############
   this.removeSong = (uri) => {
+    var found = false;
     this.playlist.forEach((playlistSong, index) => {
-      if (playlistSong.uri === uri) {
+      if (playlistSong.uri === uri && !found) {
         this.playlist.splice(index, 1);
+        found = true;
       }
     });
     $scope.$apply();
@@ -19,27 +21,27 @@ const PlaylistController = function( tribalServer, $location, $scope ) {
     tribalServer.removeSong(song.uri); 
   };
   //#############################################
-  
-
 
   //################### like button ###############
   this.likeSong = (uri, userAgent) => {
+    var found = false;
     this.playlist.forEach((playlistSong, index) => {
-      if (playlistSong.uri === uri) {
-        console.log('playlistSong1:',playlistSong.count)
+      if (playlistSong.uri === uri && !found) {
         if ( playlistSong.count.indexOf(userAgent) === -1 ) {
           playlistSong.count.push(userAgent);
-          console.log('playlistSong2:',playlistSong.count)
         } else {
-          playlistSong.count.splice(playlistSong.count.indexOf(userAgent),1)
+          playlistSong.count.splice(playlistSong.count.indexOf(userAgent),1);
         }
+        found = true;
       }
     });
     $scope.$apply();
   }
 
   this.likeButtonHandler = (song) => {
-    tribalServer.likeButton(song.uri);
+ 
+    console.log('song that was clicked:', this.playlist)
+    tribalServer.likeSong(song.uri);
   };
 
   //#############################################
@@ -72,4 +74,9 @@ const Playlist = function() {
 };
 
 angular.module('tribal').directive('playlist', Playlist);
+
+
+
+
+
 
