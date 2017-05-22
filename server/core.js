@@ -207,8 +207,8 @@ io.on( 'connection', function(client) {
       }
       console.log('uri', uri);  // id is not being passed through from core.js
     }
-    db.insertCount(playlistId, uri, userAgent);  // relates to db index.js line 41 
-    io.in(playlistId).emit('like added' , uri, userAgent);
+    db.insertCount(playlistId, uri, useragent);  // relates to db index.js line 41 
+    io.in(playlistId).emit('like added' , uri, useragent);
   });
   
   client.on('remove', function(song) {
