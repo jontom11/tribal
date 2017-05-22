@@ -75,12 +75,12 @@ const removeSong = function(playlistId, uri) {
 };
 
 // find clicked song in db, increase count, save count to db. 
-const insertCount = function(id, clickedSong, count, userAgent) {
+const insertCount = function(id, clickedSong, userAgent) {
   return getSinglePlayList( id )
     .then( playList => {
       var dbSongs = playList.songs;
       for (var songIndex = 0; songIndex < dbSongs.length; songIndex++) {
-        var songId = dbSongs[songIndex]._id.toString();
+        var songId = dbSongs[songIndex].uri.toString();
         // match clicked song to songId in database
         if (songId === clickedSong) {
           // if userAgent identification does not exists on clicked song

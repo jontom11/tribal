@@ -1,45 +1,51 @@
 const PlaylistController = function( tribalServer, $location, $scope ) {
 
+  this.songAddedHandler = (uri) => {
+    this.playlist.push({ uri: uri });
+    $scope.$apply();
+  }; 
+
+  //################### remove button ###############
   this.removeSong = (uri) => {
     this.playlist.forEach((playlistSong, index) => {
       if (playlistSong.uri === uri) {
         this.playlist.splice(index, 1);
       }
     });
-
     $scope.$apply();
   };
 
   this.removeSongButtonHandler = (song) => {
     tribalServer.removeSong(song.uri); 
   };
+  //#############################################
+  
 
-  this.songAddedHandler = (uri) => {
-    this.playlist.push({ uri: uri });
+
+  //################### like button ###############
+  this.likeSong = (uri, userAgent) => {
+    this.playlist.forEach((playlistSong, index) => {
+      if (playlistSong.uri === uri) {
+        console.log('playlistSong1:',playlistSong.count)
+        if ( playlistSong.count.indexOf(userAgent) === -1 ) {
+          playlistSong.count.push(userAgent);
+          console.log('playlistSong2:',playlistSong.count)
+        } else {
+          playlistSong.count.splice(playlistSong.count.indexOf(userAgent),1)
+        }
+      }
+    });
     $scope.$apply();
-  }; 
-  
-  // this.likeButtonHandler = (song) => {
-    // if (clicked[song] === undefined)
-      // if (!this.clicked) {
-      //   song.count.length++;
-      //   this.clicked = true;
-      // } else {
-      //   song.count.length--;
-      //   this.clicked = false;
-      // };
-      // song.count.length++;
-    // this.likeButton.push()
-    // song.count.length++;
+  }
 
-    // var player = JSON.parse( JSON.stringify(this.playlist) );
-    // player.count++
-    // tribalServer.likeButton(song.count, song._id);
-  // };
-  
-  // tribalServer.registerLikeHandler( );
-// };
+  this.likeButtonHandler = (song) => {
+    tribalServer.likeButton(song.uri);
+  };
 
+  //#############################################
+
+  
+  tribalServer.registerLikeHandler( this.likeSong );
   tribalServer.registerSongRemovedHandler( this.removeSong );
   tribalServer.registerSongAddedHandler( this.songAddedHandler );
   tribalServer.getPlaylist( $location.search().playlist, (res) => {
